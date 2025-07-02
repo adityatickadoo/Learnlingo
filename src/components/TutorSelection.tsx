@@ -16,7 +16,14 @@ const TutorSelection: React.FC<TutorSelectionProps> = ({ language, onTutorSelect
   
   const tutors = tutorsByLanguage[language.id] || [];
 
-  console.log('TutorSelection rendered with:', { language, tutorsCount: tutors.length });
+  console.log('TutorSelection Debug:', {
+    languageId: language.id,
+    languageName: language.name,
+    difficulty: language.difficulty,
+    tutorsFound: tutors.length,
+    availableLanguageIds: Object.keys(tutorsByLanguage),
+    tutorsByLanguageKeys: Object.keys(tutorsByLanguage)
+  });
 
   const personalities = ['All', 'Patient & Encouraging', 'Structured & Professional', 'Conversational & Fun'];
   
@@ -89,6 +96,23 @@ const TutorSelection: React.FC<TutorSelectionProps> = ({ language, onTutorSelect
               <p className="text-white/70 text-lg mt-2">
                 Choose your perfect learning companion - {language.difficulty} Level ({language.level})
               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Debug Info */}
+        <div className="mb-8 p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+          <div className="text-white/80 text-sm space-y-1">
+            <p><strong>Debug Info:</strong></p>
+            <p>Language ID: <span className="text-emerald-400">{language.id}</span></p>
+            <p>Tutors found: <span className="text-cyan-400">{tutors.length}</span></p>
+            <p>Available language IDs in tutorsByLanguage:</p>
+            <div className="text-xs text-white/60 mt-2 grid grid-cols-3 gap-2">
+              {Object.keys(tutorsByLanguage).map(id => (
+                <span key={id} className={`px-2 py-1 rounded ${id === language.id ? 'bg-emerald-500/30 text-emerald-300' : 'bg-white/10'}`}>
+                  {id}
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -299,12 +323,19 @@ const TutorSelection: React.FC<TutorSelectionProps> = ({ language, onTutorSelect
           <div className="text-center py-20">
             <div className="text-6xl mb-4">👨‍🏫</div>
             <h3 className="text-2xl font-bold text-white mb-2">No Tutors Found</h3>
-            <p className="text-white/70">
-              No tutors available for {language.name} - {language.difficulty} level (ID: {language.id})
+            <p className="text-white/70 mb-4">
+              No tutors available for {language.name} - {language.difficulty} level
             </p>
-            <p className="text-white/50 text-sm mt-2">
-              Available language IDs: {Object.keys(tutorsByLanguage).join(', ')}
-            </p>
+            <div className="text-white/50 text-sm mt-4 space-y-2">
+              <p><strong>Language ID:</strong> {language.id}</p>
+              <p><strong>Available IDs:</strong> {Object.keys(tutorsByLanguage).join(', ')}</p>
+            </div>
+            <button
+              onClick={onBack}
+              className="mt-6 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl hover:scale-105 transition-transform duration-300"
+            >
+              Choose Different Language
+            </button>
           </div>
         )}
       </div>
